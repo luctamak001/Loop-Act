@@ -39,35 +39,18 @@ const clearTaskBtn = document.querySelector("#clear-task-btn");
 // This function re-renders the ENTIRE task list using a for loop.
 // It gets called every time a task is added or cleared.
 function renderTasks() {
-    // TODO 2: Use a FOR loop to build an HTML string of all tasks.
-    //
-    //   Step A: Create a variable called html and set it to ""  (empty string)
-    //
-    //   Step B: Write a for loop: for (let i = 0; i < tasks.length; i++)
-    //     Inside the loop, ADD to the html string using +=
-    //     Each task should look like this (use template literals):
-    //
-    //     <div class="list-item">
-    //       <span><span class="num">${i + 1}.</span> ${tasks[i]}</span>
-    //     </div>
-    //
-    //   Step C: After the loop, set taskList.innerHTML = html
-    //
-    //   Step D: Handle the empty state — if tasks.length === 0,
-    //     set taskList.innerHTML to:
-    //     '<span class="placeholder">Your tasks will appear here...</span>'
-    let html = "";
-
-    for (let i = 0; i < tasks.length; i++) {
-        html += `<div class="list-item">
-                    <span><span class="num">${i + 1}</span> ${tasks[i]}</span>
-                    </div>`
-    }
-    taskList.innerHTML = html;
     if (tasks.length === 0) {
         taskList.innerHTML = '<span class="placeholder">Your tasks will appear here...</span>';
+        return;
     }
 
+    let html = "";
+    for (let i = 0; i < tasks.length; i++) {
+        html += `<div class="list-item">
+        <span><span class="num">${i + 1}.</span> ${tasks[i]}</span>
+      </div>`;
+    }
+    taskList.innerHTML = html;
 }
 
 // TODO 3: Add TWO event listeners:
@@ -82,7 +65,7 @@ function renderTasks() {
 //   Listener B — clearTasksBtn "click":
 //     1. Set tasks.length = 0   (this empties the array)
 //     2. Call renderTasks()
-addTaskBtn.addEventListener("click", () => {
+addTaskBtn.addEventListener("click", function() {
     const task = taskInput.value;
     if (task !== "") {
         tasks.push(task);
@@ -90,7 +73,8 @@ addTaskBtn.addEventListener("click", () => {
         renderTasks();
     }
 });
-clearTaskBtn.addEventListener("click", () => {
+
+clearTasksBtn.addEventListener("click", function() {
     tasks.length = 0;
     renderTasks();
 });
@@ -105,9 +89,10 @@ clearTaskBtn.addEventListener("click", () => {
 //   - The number input with id "countdown-input"   → store in countdownInput
 //   - The button with id "countdown-btn"           → store in countdownBtn
 //   - The output div with id "countdown-display"   → store in countdownDisplay
-countdownInput = document.querySelector("#countdown-input");
-countdownBtn = document.querySelector("#countdown-btn");
-countdownDisplay = document.querySelector("#countdown-display");
+const countdownInput = document.querySelector("#countdown-input");
+const countdownBtn = document.querySelector("#countdown-btn");
+const countdownDisplay = document.querySelector("#countdown-display");
+
 
 
 // TODO 5: Add an event listener on countdownBtn for "click":
@@ -139,27 +124,32 @@ countdownDisplay = document.querySelector("#countdown-display");
 //        html += '</div>';
 //
 //     6. Set countdownDisplay.innerHTML = html
-countdownBtn.addEventListener("click", () => {
-    num = Number(countdownInput.value);
+countdownBtn.addEventListener("click", function() {
+    let num = Number(countdownInput.value);
     let html = "";
-    html += `<div class="countdown-grid">`;
-    let color = "";
+
+    html += '<div class="countdown-grid">';
+
     while (num >= 1) {
+        let color;
         if (num > 10) {
-            color = "var(--purple)"
+            color = "var(--purple)";
         } else if (num > 5) {
-            color = "var(--blue)"
+            color = "var(--blue)";
         } else if (num > 3) {
-            color = "var(--yellow)"
+            color = "var(--yellow)";
         } else {
-            color = "var(--red)"
+            color = "var(--red)";
         }
+
         html += `<div class="countdown-tile" style="background:${color}; color:var(--bg);">${num}</div>`;
         num--;
     }
+
     html += '</div>';
     countdownDisplay.innerHTML = html;
 });
+
 
 
 // ╔══════════════════════════════════════════════════════╗
@@ -169,13 +159,13 @@ countdownBtn.addEventListener("click", () => {
 
 // TODO 6: Create an array called students with at least 6 names.
 //   Example: const students = ["Alice", "Bob", "Carlos", "Diana", "Ethan", "Fiona"];
-const students = ["Alice", "Bob", "Carlos", "Diana", "Ethan", "Fiona"]
+const students = ["Alice", "Bob", "Carlos", "Diana", "Ethan", "Fiona"];
 
 
 // TODO 7: Use querySelector to select:
 //   - The button with id "load-roster-btn"    → store in loadRosterBtn
 //   - The output div with id "roster-display" → store in rosterDisplay
-const loadRostersBtn = document.querySelector("#load-rosters-btn");
+const loadRosterBtn = document.querySelector("#load-roster-btn");
 const rosterDisplay = document.querySelector("#roster-display");
 
 
@@ -208,30 +198,27 @@ const rosterDisplay = document.querySelector("#roster-display");
 //        html += '</div>';
 //
 //     5. Set rosterDisplay.innerHTML = html
-loadRostersBtn.addEventListener("click", () => {
+loadRosterBtn.addEventListener("click", function() {
     let html = "";
     html += '<div class="roster-grid">';
-    for (const students of students) {
-        const initial = students[0];
 
-        const colors = ["var(--accent)",
-            "var(--purple)",
-            "var(--yellow)",
-            "var(--red)",
-            "var(--blue)"];
-        const colorIndex = students.charCodeAt(0) % colors.length;
-        const bigColor = colors[colorIndex];
+    for (const student of students) {
+        const initial = student[0];
+        const colors = ["var(--accent)", "var(--purple)", "var(--yellow)", "var(--red)", "var(--blue)"];
+        const colorIndex = student.charCodeAt(0) % colors.length;
+        const bgColor = colors[colorIndex];
 
-        `<div class="roster-card">
-           <div class="avatar" style="background:${bigColor}; color:var(--bg);">${initial}</div>
-           <div class="name">${student}</div>
-           <div class="role">Student</div>
-        </div>`
-
+        html += `<div class="roster-card">
+        <div class="avatar" style="background:${bgColor}; color:var(--bg);">${initial}</div>
+        <div class="name">${student}</div>
+        <div class="role">Student</div>
+      </div>`;
     }
+
     html += '</div>';
     rosterDisplay.innerHTML = html;
 });
+
 
 
 // ╔══════════════════════════════════════════════════════╗
@@ -273,55 +260,28 @@ const filterBtns = document.querySelectorAll(".filter-btn");
 
 // This function renders the gallery, filtered by category.
 function renderGallery(filter) {
-    // TODO 10: Use forEach to build the gallery HTML.
-    //
-    //   Step A: Create a variable called html set to ""
-    //   Step B: Add: html += '<div class="roster-grid">';
-    //
-    //   Step C: Use items.forEach(function(item) { ... })
-    //     Inside the forEach:
-    //       - Check: if filter === "all" OR item.category === filter
-    //         If true, add a card to html:
-    //           `<div class="roster-card">
-    //              <div style="font-size:2rem; margin-bottom:0.5rem;">${item.emoji}</div>
-    //              <div class="name">${item.name}</div>
-    //              <div class="role">${item.category}</div>
-    //            </div>`
-    //
-    //   Step D: After forEach, close: html += '</div>';
-    //   Step E: Set galleryDisplay.innerHTML = html
     let html = "";
     html += '<div class="roster-grid">';
-    items.forEach(function (item) {
+
+    items.forEach(function(item) {
         if (filter === "all" || item.category === filter) {
-            if (filter === true) {
-                `<div class="roster-card">
-                 <div style="font-size:2rem; margin-bottom:0.5rem;">${item.emoji}</div>
-                 <div class="name">${item.name}</div>
-                 <div class="role">${item.category}</div>
-               </div>`
-            }
+            html += `<div class="roster-card">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">${item.emoji}</div>
+          <div class="name">${item.name}</div>
+          <div class="role">${item.category}</div>
+        </div>`;
         }
-        html += '</div>';
-        galleryDisplay.innerHTML = html;
-    })
+    });
 
-
-
+    html += '</div>';
+    galleryDisplay.innerHTML = html;
 }
 
-// This code handles the filter button clicks — already done for you!
-filterBtns.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-        // Remove "active" class from all buttons
-        filterBtns.forEach(function (b) {
-            b.classList.remove("active");
-        });
-        // Add "active" to the clicked button
+filterBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+        filterBtns.forEach(function(b) { b.classList.remove("active"); });
         btn.classList.add("active");
-        // Get the filter value from the data-filter attribute
         const filter = btn.getAttribute("data-filter");
-        // Render the gallery with the selected filter
         renderGallery(filter);
     });
 });
